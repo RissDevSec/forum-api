@@ -23,4 +23,5 @@ jobs:
           npm ci --no-audit --no-fund
           npm run migrate up
           npm prune --omit=dev
-          pm2 restart forum-api
+          pm2 startOrReload ecosystem.config.cjs --update-env
+          pm2 save
