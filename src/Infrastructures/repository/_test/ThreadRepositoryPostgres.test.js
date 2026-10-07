@@ -101,8 +101,16 @@ describe('ThreadRepositoryPostgres', () => {
   describe('listThreads function', () => {
     it('should return threads correctly', async () => {
       // Arrange
-      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' });
-      await ThreadsTableTestHelper.addThread({ id: 'thread-456', owner: 'user-123' });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        owner: 'user-123',
+        createdAt: '2026-01-01T00:00:00.000Z',
+      });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-456',
+        owner: 'user-123',
+        createdAt: '2026-01-02T00:00:00.000Z',
+      });
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action

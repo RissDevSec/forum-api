@@ -1389,6 +1389,7 @@ describe('HTTP server', () => {
 
   it('should handle server error correctly', async () => {
     // Arrange
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const requestPayload = {
       username: 'dicoding',
       fullname: 'Dicoding Indonesia',
@@ -1403,5 +1404,8 @@ describe('HTTP server', () => {
     expect(response.status).toEqual(500);
     expect(response.body.status).toEqual('error');
     expect(response.body.message).toEqual('terjadi kegagalan pada server kami');
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 });
