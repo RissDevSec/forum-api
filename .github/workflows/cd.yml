@@ -11,16 +11,24 @@ jobs:
  
     steps:
     - name: SSH and deploy app
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v1.2.5
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+          set -e
           cd ~/forum-api
           git pull origin main
           npm ci --no-audit --no-fund
           npm run migrate up
           npm prune --omit=dev
-          pm2 restart forum-api
+          pm2 startOrReload ecosystem.config.cjs --update-env
+          pm2 save
+
+    - name: Check the site is up
+      run: curl -fsS --retry 5 --retry-delay 3 --retry-all-errors "${{ secrets.SITE_URL }}/threads" > /dev/null
