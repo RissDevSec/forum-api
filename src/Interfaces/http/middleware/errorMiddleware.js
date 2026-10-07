@@ -13,6 +13,7 @@ const errorMiddleware = async (err, req, res, next) => {
       message: translatedError.message,
     });
   } else {
+    console.error(err);
     return res.status(500).json({
       status: 'error',
       message: 'terjadi kegagalan pada server kami',
