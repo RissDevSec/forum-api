@@ -12,16 +12,12 @@ dotenv.config({
 
 const config = {
   app: {
-    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
-    port: process.env.PORT,
+    host: process.env.HOST || '127.0.0.1',
+    port: process.env.PORT || 3000,
     debug: process.env.NODE_ENV === 'development' ? { request: ['error'] } : {},
   },
   database: {
-    host: process.env.PGHOST,
-    port: process.env.PGPORT,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE,
+    connectionString: process.env.DATABASE_URL,
   },
   auth: {
     jwtStrategy: 'forumapi',

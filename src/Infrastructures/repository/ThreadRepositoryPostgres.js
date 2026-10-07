@@ -86,7 +86,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
         LEFT JOIN comments ON threads.id = comments.thread_id AND comments.parent_id IS NULL
 
         GROUP BY threads.id, users.username
-        ORDER BY threads.created_at DESC
+        ORDER BY threads.created_at DESC, threads.id DESC
         
         LIMIT $1 OFFSET $2
       `,
